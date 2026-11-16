@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Empire Estates</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#e9eeeb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1719" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Empire Estates">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9eeeb;--card:#f6f8f6;--fg:#14262b;--mut:#5f7479;--line:#cfd9d5;--acc:#2f6f58;--trk:#d5dfdb;--bad:#a4452f;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1719;--card:#15211f;--fg:#e4ece8;--mut:#8aa19b;--line:#26363a;--acc:#7fc2a0;--trk:#243336;--bad:#e0866e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1719;--card:#15211f;--fg:#e4ece8;--mut:#8aa19b;--line:#26363a;--acc:#7fc2a0;--trk:#243336;--bad:#e0866e;color-scheme:dark}
+*{box-sizing:border-box}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 "DM Sans",system-ui,sans-serif}
+main{max-width:940px;margin:0 auto;padding:28px 18px 80px}
+h1{font:400 clamp(40px,8vw,64px)/1 "Instrument Serif",Georgia,serif;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:0 0 24px}
+h2{font:400 26px/1.1 "Instrument Serif",Georgia,serif;margin:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+button:hover{border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+input,select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 10px;min-width:0}
+.top{display:grid;grid-template-columns:330px 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.st small{color:var(--mut)}
+.big{font:400 38px/1 "Instrument Serif",Georgia,serif}
+.inc .big{color:var(--acc)}.exp .big{color:var(--bad)}
+.bar{height:7px;border-radius:7px;background:var(--trk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);border-radius:7px;transition:width .3s}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ch b{font-weight:600}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal span{color:var(--mut);font-size:12px;padding:2px 0}
+.cal button{border:0;border-radius:8px;padding:6px 0;position:relative;font-size:13px}
+.cal button.td{box-shadow:inset 0 0 0 1px var(--acc)}
+.cal button.sl{background:var(--acc);color:var(--bg)}
+.cal button.hd::after{content:"";position:absolute;left:50%;bottom:2px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:currentColor;opacity:.6}
+.day{margin:22px 0 14px;display:grid;gap:8px}
+.day h2{font-size:32px}
+.dp{display:flex;align-items:center;gap:12px}.dp .bar{flex:1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wide{grid-column:1/-1}
+.card h2{margin-bottom:2px}
+.hint{color:var(--mut);font-size:13px;margin:0 0 12px}
+ul{list-style:none;margin:0 0 12px;padding:0}
+.r{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
+.r:last-child{border-bottom:0}
+.tx{flex:1;overflow-wrap:anywhere}
+.dn .tx{text-decoration:line-through;color:var(--mut)}
+.ck{width:22px;height:22px;padding:0;border-radius:6px;flex:none;line-height:1}
+.dn .ck{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.ac{display:flex;gap:4px}.ac button{font-size:12px;padding:2px 8px;color:var(--mut)}
+.r input{flex:1}
+form{display:flex;gap:8px;flex-wrap:wrap}
+form input[name=t]{flex:1;min-width:140px}
+form input[type=number]{width:84px}
+form button{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.empty{color:var(--mut);font-size:13px;padding:4px 0 10px}
+.g{padding:10px 0;border-bottom:1px solid var(--line)}.g:last-child{border-bottom:0}
+.gh{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.gc{display:flex;align-items:center;gap:8px;margin-top:8px}
+.gc .pm{width:32px;padding:2px 0;font-size:18px;line-height:1.2}
+.gc .pc{flex:1;color:var(--mut);font-size:13px}
+.ge{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.ge input[type=number]{width:80px}
+.amt{font-weight:600}.amt.i{color:var(--acc)}.amt.e{color:var(--bad)}
+.tot{display:flex;gap:16px;color:var(--mut);font-size:13px;margin-bottom:10px;flex-wrap:wrap}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:6px;margin-bottom:12px}
+.tile{border:1px solid var(--line);border-radius:9px;padding:6px 8px;display:flex;flex-direction:column;justify-content:space-between;gap:4px;min-height:48px;font-size:13px;line-height:1.3;background:var(--bg)}
+.tile .ac{gap:3px}.tile .ac button{font-size:11px;padding:0 6px}
+.tt{display:flex;gap:8px;align-items:flex-start;text-align:left;border:0;padding:0;width:100%}
+.tt:hover{border:0}
+.ck2{width:16px;height:16px;border:1px solid currentColor;border-radius:5px;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:11px;opacity:.8}
+[hidden]{display:none!important}
+.panel{margin:0 0 12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);overflow-x:auto}
+.panel table{border-collapse:collapse;font-size:12px;min-width:100%}
+.panel th,.panel td{border:1px solid var(--line);padding:3px 5px;text-align:center;min-width:24px}
+.panel td.rn,.panel th:first-child{text-align:left;min-width:110px;position:sticky;left:0;background:var(--bg)}
+.panel td.sl,.panel th.sl{background:var(--trk)}
+.panel td.on{color:var(--acc);font-weight:600}
+.dd{margin-bottom:12px}.dd p{margin:4px 0 0;white-space:pre-wrap}
+.tile.dn{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.tile.dn .ac button{color:var(--bg);border-color:currentColor}
+.tile input{width:100%}
+textarea{font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:90px;resize:vertical}
+form textarea{flex:1 1 100%}
+.r textarea{flex:1;min-height:110px}
+#dump .r{align-items:flex-start}
+#dump .tx{white-space:pre-wrap}
+@media (max-width:760px){.top,.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>Empire Estates</h1>
+<p class="sub">Your future assets are built from today’s habits.</p>
+<p class="hint" id="ios" hidden>On iPhone: tap Share, then Add to Home Screen.</p>
+<button id="install" hidden style="margin-bottom:16px">Install app</button>
+
+<section class="top">
+  <div class="card"><div class="ch"><button data-a="nav" data-id="-1" aria-label="Previous month">‹</button><b id="mlabel"></b><button data-a="nav" data-id="1" aria-label="Next month">›</button></div><div class="cal" id="cal"></div><div style="text-align:center;margin-top:8px"><button data-a="today">Today</button></div></div>
+  <div class="stats" id="stats"></div>
+</section>
+
+<section class="day"><h2 id="dtitle"></h2><div class="dp"><div class="bar"><i id="dbar"></i></div><span id="dpct"></span></div></section>
+
+<div class="grid">
+  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Daily routine</h2><button id="bsheet" data-a="sheet">Month sheet</button></div><p class="hint">“Small steps, repeated daily, build an empire.” Same every day; ticks are saved per date.</p><div class="panel" id="sheet" hidden></div><div class="tiles" id="routine"></div><form data-f="routine"><input name="t" placeholder="Add a routine step" aria-label="Routine step"><button>Add</button></form></section>
+
+  
+
+  <section class="card wide"><h2>Goals</h2><p class="hint">“Goals are future assets. Fund them a little every day.” Progress carries over every day.</p><ul id="goals"></ul><form data-f="goal"><input name="t" placeholder="New goal" aria-label="Goal name"><input name="target" type="number" min="1" value="10" aria-label="Target" title="Target"><button>Add goal</button></form></section>
+
+  <section class="card"><h2>To-do list</h2><p class="hint">“What you do today decides who you become tomorrow.”</p><ul id="todo"></ul><form data-f="todo"><input name="t" placeholder="Add a task" aria-label="Task"><button>Add</button></form></section>
+
+  <section class="card"><h2>Money tracker</h2><p class="hint">“Every rupee has a job. Give it a future.”</p><div class="tot" id="mtot"></div><ul id="money"></ul><form data-f="money"><select name="type" aria-label="Type"><option value="inc">Income</option><option value="exp">Expense</option></select><input name="amt" type="number" min="0" step="any" placeholder="₹" aria-label="Amount"><input name="t" placeholder="Note" aria-label="Note"><button>Add</button></form></section>
+
+  
+
+  <section class="card wide"><h2>Week tasks</h2><p class="hint">“Win the week and the month takes care of itself.”</p><p class="hint" id="wrange" style="margin-top:-8px"></p><div class="dp" style="margin-bottom:10px"><div class="bar"><i id="wbar"></i></div><span id="wpct"></span></div><ul id="wk"></ul><form data-f="wk"><input name="t" placeholder="Add a task for this week" aria-label="Week task"><button>Add</button></form></section>
+
+  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Brain dumps</h2><button id="bdumps" data-a="dumps">Month notes</button></div><p class="hint">“Get it out of your head and onto the page.” Long notes are welcome; they keep their line breaks.</p><div class="panel" id="dpanel" hidden></div><ul id="dump"></ul><form data-f="dump"><textarea name="t" placeholder="Write it all down" aria-label="Brain dump"></textarea><button>Add note</button></form></section>
+</div>
+</main>
+
+<script>
+const K='empire-estates-v1';
+let S={routine:[],rd:{},goals:[],todos:{},money:{},dumps:{},week:{}};
+try{const r=localStorage.getItem(K);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=k=>{const[y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d)};
+const L=(o,k)=>o[k]||(o[k]=[]);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const wk=k=>{const d=parse(k);d.setDate(d.getDate()-(d.getDay()+6)%7);return key(d)};
+const bar=p=>`<div class="bar"><i style="width:${Math.min(100,p)}%"></i></div>`;
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const today=key(new Date());
+let sel=today,vm=parse(sel);vm.setDate(1);let ed=null,showSheet=false,showDumps=false;
+
+function find(k,id){
+  const a=k==='routine'?S.routine:k==='todo'?L(S.todos,sel):k==='wk'?L(S.week,wk(sel)):k==='dump'?L(S.dumps,sel):k==='money'?L(S.money,sel):S.goals;
+  return[a,a.find(x=>x.id===id)];
+}
+const btns=(k,id)=>`<span class="ac"><button data-a="edit" data-k="${k}" data-id="${id}">Edit</button><button data-a="del" data-k="${k}" data-id="${id}" aria-label="Delete">✕</button></span>`;
+const editRow=(k,it,inner)=>`<li class="r">${inner}<button data-a="save" data-k="${k}" data-id="${it.id}">Save</button><button data-a="cancel" data-k="${k}" data-id="${it.id}">Cancel</button></li>`;
+function row(k,it,checked){
+  if(ed===it.id)return editRow(k,it,k==='dump'?`<textarea id="ed-n" aria-label="Edit note">${esc(it.t)}</textarea>`:`<input id="ed-n" value="${esc(it.t)}" aria-label="Edit text">`);
+  const ck=checked===null?'':`<button class="ck" data-a="tog" data-k="${k}" data-id="${it.id}" aria-label="Toggle done">${checked?'✓':''}</button>`;
+  return`<li class="r${checked?' dn':''}">${ck}<span class="tx">${esc(it.t)}</span>${btns(k,it.id)}</li>`;
+}
+const list=(el,items,fn,msg)=>{$(el).innerHTML=items.length?items.map(fn).join(''):`<li class="empty">${msg}</li>`};
+
+function render(){
+  const rd=L(S.rd,sel),todos=L(S.todos,sel),weeks=L(S.week,wk(sel));
+  // calendar
+  const y=vm.getFullYear(),m=vm.getMonth();
+  $('mlabel').textContent=vm.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  let h=['M','T','W','T','F','S','S'].map(d=>`<span>${d}</span>`).join('');
+  const first=(vm.getDay()+6)%7,dim=new Date(y,m+1,0).getDate();
+  for(let i=0;i<first;i++)h+='<span></span>';
+  for(let d=1;d<=dim;d++){
+    const k=y+'-'+pad(m+1)+'-'+pad(d);
+    const has=(S.rd[k]||[]).length||(S.todos[k]||[]).length||(S.money[k]||[]).length||(S.dumps[k]||[]).length;
+    h+=`<button data-a="day" data-id="${k}" class="${k===today?'td ':''}${k===sel?'sl ':''}${has?'hd':''}">${d}</button>`;
+  }
+  $('cal').innerHTML=h;
+  // day progress
+  const rdone=S.routine.filter(r=>rd.includes(r.id)).length;
+  const tot=S.routine.length+todos.length,dn=rdone+todos.filter(t=>t.d).length,dp=pct(dn,tot);
+  $('dtitle').textContent=parse(sel).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  $('dbar').style.width=dp+'%';$('dpct').textContent=dp+'% · '+dn+'/'+tot;
+  // goals overall
+  const gt=S.goals.reduce((a,g)=>a+g.target,0),gc=S.goals.reduce((a,g)=>a+Math.min(g.cur,g.target),0),gp=pct(gc,gt);
+  // month money
+  const pre=y+'-'+pad(m+1)+'-';let inc=0,exp=0;
+  Object.keys(S.money).forEach(k=>{if(k.startsWith(pre))S.money[k].forEach(e=>e.type==='inc'?inc+=e.amt:exp+=e.amt)});
+  const mn=vm.toLocaleDateString('en-IN',{month:'long'});
+  $('stats').innerHTML=`<div class="st"><small>Day progress</small><span class="big">${dp}%</span>${bar(dp)}</div>
+  <div class="st"><small>Goals progress</small><span class="big">${gp}%</span>${bar(gp)}</div>
+  <div class="st inc"><small>Income in ${mn}</small><span class="big">${inr(inc)}</span></div>
+  <div class="st exp"><small>Expenses in ${mn}</small><span class="big">${inr(exp)}</span></div>`;
+  // routine / todo
+  $('routine').innerHTML=S.routine.length?S.routine.map(r=>{const d=rd.includes(r.id);
+    if(ed===r.id)return`<div class="tile"><input id="ed-n" value="${esc(r.t)}" aria-label="Edit text"><div class="ac"><button data-a="save" data-k="routine" data-id="${r.id}">Save</button><button data-a="cancel" data-k="routine" data-id="${r.id}">Cancel</button></div></div>`;
+    return`<div class="tile${d?' dn':''}"><button class="tt" data-a="tog" data-k="routine" data-id="${r.id}" aria-pressed="${d}"><span class="ck2">${d?'✓':''}</span><span>${esc(r.t)}</span></button>${btns('routine',r.id)}</div>`}).join(''):'<p class="empty">No routine yet. Add your first step below.</p>';
+  list('todo',todos,t=>row('todo',t,t.d),'Nothing planned for this day.');
+  list('dump',L(S.dumps,sel),t=>row('dump',t,null),'Empty. Dump a thought below.');
+  // week
+  const ws=parse(wk(sel)),we=new Date(ws);we.setDate(we.getDate()+6);
+  const f=d=>d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+  $('wrange').textContent='Week of '+f(ws)+' to '+f(we);
+  const wd=weeks.filter(t=>t.d).length,wp=pct(wd,weeks.length);
+  $('wbar').style.width=wp+'%';$('wpct').textContent=wp+'% · '+wd+'/'+weeks.length;
+  list('wk',weeks,t=>row('wk',t,t.d),'No tasks for this week yet.');
+  // goals list
+  list('goals',S.goals,g=>{
+    const p=pct(g.cur,g.target);
+    if(ed===g.id)return`<li class="g"><div class="ge"><input id="ed-n" value="${esc(g.t)}" aria-label="Goal name"><input id="ed-t" type="number" min="1" value="${g.target}" aria-label="Target"><input id="ed-c" type="number" min="0" value="${g.cur}" aria-label="Current"><button data-a="save" data-k="goal" data-id="${g.id}">Save</button><button data-a="cancel" data-k="goal" data-id="${g.id}">Cancel</button></div></li>`;
+    return`<li class="g"><div class="gh"><b>${esc(g.t)}</b>${btns('goal',g.id)}</div>${bar(p)}<div class="gc"><button class="pm" data-a="minus" data-k="goal" data-id="${g.id}" aria-label="Decrease">−</button><button class="pm" data-a="plus" data-k="goal" data-id="${g.id}" aria-label="Increase">+</button><span class="pc">${g.cur} of ${g.target} · ${p}%</span></div></li>`;
+  },'No goals yet. Add one below.');
+  // money
+  const me=L(S.money,sel);
+  const di=me.filter(e=>e.type==='inc').reduce((a,e)=>a+e.amt,0),de=me.filter(e=>e.type==='exp').reduce((a,e)=>a+e.amt,0);
+  $('mtot').innerHTML=`<span>Day income ${inr(di)}</span><span>Day expenses ${inr(de)}</span>`;
+  list('money',me,e=>{
+    if(ed===e.id)return editRow('money',e,`<input id="ed-a" type="number" min="0" step="any" value="${e.amt}" style="max-width:100px" aria-label="Amount"><input id="ed-n" value="${esc(e.t)}" aria-label="Note">`);
+    return`<li class="r"><span class="tx">${esc(e.t||(e.type==='inc'?'Income':'Expense'))}</span><span class="amt ${e.type==='inc'?'i':'e'}">${e.type==='inc'?'+':'−'}${inr(e.amt)}</span>${btns('money',e.id)}</li>`;
+  },'No money moves on this day.');
+  $('sheet').hidden=!showSheet;$('bsheet').textContent=showSheet?'Hide month sheet':'Month sheet';
+  if(showSheet){
+    const days=Array.from({length:dim},(_,i)=>y+'-'+pad(m+1)+'-'+pad(i+1));
+    let tb=`<table><thead><tr><th>${mn} ${y}</th>`+days.map((k,i)=>`<th class="${k===sel?'sl':''}">${i+1}</th>`).join('')+'<th>Done</th></tr></thead><tbody>';
+    tb+=S.routine.map(r=>{let c=0;const cells=days.map(k=>{const on=(S.rd[k]||[]).includes(r.id);if(on)c++;return`<td class="${on?'on ':''}${k===sel?'sl':''}">${on?'✓':''}</td>`}).join('');return`<tr><td class="rn">${esc(r.t)}</td>${cells}<td>${c}/${dim}</td></tr>`}).join('');
+    tb+='<tr><td class="rn"><b>Day %</b></td>'+days.map(k=>`<td class="${k===sel?'sl':''}">${S.routine.length?pct(S.routine.filter(r=>(S.rd[k]||[]).includes(r.id)).length,S.routine.length):''}</td>`).join('')+'<td></td></tr></tbody></table>';
+    $('sheet').innerHTML=S.routine.length?tb:'<p class="empty">Add routine steps to see the month sheet.</p>';
+  }
+  $('dpanel').hidden=!showDumps;$('bdumps').textContent=showDumps?'Hide month notes':'Month notes';
+  if(showDumps){
+    const ks=Object.keys(S.dumps).filter(k=>k.startsWith(pre)&&S.dumps[k].length).sort();
+    $('dpanel').innerHTML=ks.length?ks.map(k=>`<div class="dd"><b>${parse(k).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})}</b>${S.dumps[k].map(n=>`<p>${esc(n.t)}</p>`).join('')}</div>`).join(''):`<p class="empty">No notes in ${mn} yet.</p>`;
+  }
+  const fe=document.querySelector('[id^=ed-]');if(fe)fe.focus();
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;
+  const{a,k,id}=b.dataset;
+  if(a==='day'){sel=id;vm=parse(id);vm.setDate(1);ed=null}
+  else if(a==='nav')vm=new Date(vm.getFullYear(),vm.getMonth()+Number(id),1);
+  else if(a==='sheet')showSheet=!showSheet;
+  else if(a==='dumps')showDumps=!showDumps;
+  else if(a==='today'){sel=today;vm=parse(sel);vm.setDate(1);ed=null}
+  else{
+    const[arr,it]=find(k,id);if(!it&&a!=='cancel'){return}
+    if(a==='tog'){if(k==='routine'){const r=L(S.rd,sel),i=r.indexOf(id);i<0?r.push(id):r.splice(i,1)}else it.d=!it.d}
+    else if(a==='del'){arr.splice(arr.indexOf(it),1);if(ed===id)ed=null}
+    else if(a==='edit')ed=id;
+    else if(a==='cancel')ed=null;
+    else if(a==='plus'||a==='minus')it.cur=Math.max(0,it.cur+(a==='plus'?1:-1));
+    else if(a==='save'){
+      const n=$('ed-n').value.trim();
+      if(k==='goal'){it.t=n||it.t;it.target=Math.max(1,+$('ed-t').value||it.target);it.cur=Math.max(0,+$('ed-c').value||0)}
+      else if(k==='money'){const v=Math.abs(+$('ed-a').value);if(v)it.amt=v;it.t=n}
+      else it.t=n||it.t;
+      ed=null;
+    }
+  }
+  save();render();
+});
+document.addEventListener('keydown',e=>{
+  if(!ed||!e.target.id||!e.target.id.startsWith('ed-'))return;
+  if(e.key==='Enter'&&(e.target.tagName!=='TEXTAREA'||e.ctrlKey||e.metaKey)){const s=document.querySelector('[data-a="save"]');if(s)s.click()}
+  if(e.key==='Escape'){ed=null;render()}
+});
+document.addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target,k=f.dataset.f,v=Object.fromEntries(new FormData(f)),t=(v.t||'').trim();
+  if(k==='goal'){if(!t)return;S.goals.push({id:uid(),t,target:Math.max(1,+v.target||10),cur:0})}
+  else if(k==='money'){const amt=Math.abs(+v.amt);if(!amt)return;L(S.money,sel).push({id:uid(),type:v.type,amt,t})}
+  else{
+    if(!t)return;
+    const arr=k==='routine'?S.routine:k==='todo'?L(S.todos,sel):k==='wk'?L(S.week,wk(sel)):L(S.dumps,sel);
+    arr.push({id:uid(),t,d:false});
+  }
+  f.reset();save();render();
+});
+render();
+let dip=null;const ib=$('install');
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;ib.hidden=false});
+ib.addEventListener('click',async()=>{if(!dip)return;dip.prompt();try{await dip.userChoice}catch(e){}dip=null;ib.hidden=true});
+window.addEventListener('appinstalled',()=>{ib.hidden=true});
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!standalone)$('ios').hidden=false;
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
