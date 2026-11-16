@@ -119,21 +119,21 @@ form textarea{flex:1 1 100%}
 <section class="day"><h2 id="dtitle"></h2><div class="dp"><div class="bar"><i id="dbar"></i></div><span id="dpct"></span></div></section>
 
 <div class="grid">
-  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Daily routine</h2><button id="bsheet" data-a="sheet">Month sheet</button></div><p class="hint">“Small steps, repeated daily, build an empire.” Same every day; ticks are saved per date.</p><div class="panel" id="sheet" hidden></div><div class="tiles" id="routine"></div><form data-f="routine"><input name="t" placeholder="Add a routine step" aria-label="Routine step"><button>Add</button></form></section>
+  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Daily routine</h2><button id="bsheet" data-a="sheet">Month sheet</button></div><p class="hint">Small steps, repeated daily, build an empire.</p><div class="panel" id="sheet" hidden></div><div class="tiles" id="routine"></div><form data-f="routine"><input name="t" placeholder="Add a routine step" aria-label="Routine step"><button>Add</button></form></section>
 
   
 
-  <section class="card wide"><h2>Goals</h2><p class="hint">“Goals are future assets. Fund them a little every day.” Progress carries over every day.</p><ul id="goals"></ul><form data-f="goal"><input name="t" placeholder="New goal" aria-label="Goal name"><input name="target" type="number" min="1" value="10" aria-label="Target" title="Target"><button>Add goal</button></form></section>
+  <section class="card wide"><h2>Goals</h2><p class="hint">Goals are future assets. Fund them a little every day.</p><ul id="goals"></ul><form data-f="goal"><input name="t" placeholder="New goal" aria-label="Goal name"><input name="target" type="number" min="1" value="10" aria-label="Target" title="Target"><button>Add goal</button></form></section>
 
-  <section class="card"><h2>To-do list</h2><p class="hint">“What you do today decides who you become tomorrow.”</p><ul id="todo"></ul><form data-f="todo"><input name="t" placeholder="Add a task" aria-label="Task"><button>Add</button></form></section>
+  <section class="card"><h2>To-do list</h2><p class="hint">What you do today decides who you become tomorrow.</p><ul id="todo"></ul><form data-f="todo"><input name="t" placeholder="Add a task" aria-label="Task"><button>Add</button></form></section>
 
-  <section class="card"><h2>Money tracker</h2><p class="hint">“Every rupee has a job. Give it a future.”</p><div class="tot" id="mtot"></div><ul id="money"></ul><form data-f="money"><select name="type" aria-label="Type"><option value="inc">Income</option><option value="exp">Expense</option></select><input name="amt" type="number" min="0" step="any" placeholder="₹" aria-label="Amount"><input name="t" placeholder="Note" aria-label="Note"><button>Add</button></form></section>
+  <section class="card"><h2>Money tracker</h2><p class="hint">Every rupee has a job. Give it a future.</p><div class="tot" id="mtot"></div><ul id="money"></ul><form data-f="money"><select name="type" aria-label="Type"><option value="inc">Income</option><option value="exp">Expense</option></select><input name="amt" type="number" min="0" step="any" placeholder="₹" aria-label="Amount"><input name="t" placeholder="Note" aria-label="Note"><button>Add</button></form></section>
 
   
 
-  <section class="card wide"><h2>Week tasks</h2><p class="hint">“Win the week and the month takes care of itself.”</p><p class="hint" id="wrange" style="margin-top:-8px"></p><div class="dp" style="margin-bottom:10px"><div class="bar"><i id="wbar"></i></div><span id="wpct"></span></div><ul id="wk"></ul><form data-f="wk"><input name="t" placeholder="Add a task for this week" aria-label="Week task"><button>Add</button></form></section>
+  <section class="card wide"><h2>Week tasks</h2><p class="hint">Win the week and the month takes care of itself.</p><p class="hint" id="wrange" style="margin-top:-8px"></p><div class="dp" style="margin-bottom:10px"><div class="bar"><i id="wbar"></i></div><span id="wpct"></span></div><ul id="wk"></ul><form data-f="wk"><input name="t" placeholder="Add a task for this week" aria-label="Week task"><button>Add</button></form></section>
 
-  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Brain dumps</h2><button id="bdumps" data-a="dumps">Month notes</button></div><p class="hint">“Get it out of your head and onto the page.” Long notes are welcome; they keep their line breaks.</p><div class="panel" id="dpanel" hidden></div><ul id="dump"></ul><form data-f="dump"><textarea name="t" placeholder="Write it all down" aria-label="Brain dump"></textarea><button>Add note</button></form></section>
+  <section class="card wide"><div class="ch" style="margin-bottom:2px"><h2>Brain dumps</h2><button id="bdumps" data-a="dumps">Month notes</button></div><p class="hint">Get it out of your head and onto the page.</p><div class="panel" id="dpanel" hidden></div><ul id="dump"></ul><form data-f="dump"><textarea name="t" placeholder="Write it all down" aria-label="Brain dump"></textarea><button>Add note</button></form></section>
 </div>
 </main>
 
